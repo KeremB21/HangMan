@@ -11,7 +11,7 @@ lives = 6
 from hangman_art import logo
 print(logo)
 
-# print(f'Pssst, the solution is {chosen_word}.')
+# print(f"The solution is {chosen_word}.")
 
 display = []
 for _ in range(word_length):
@@ -33,6 +33,8 @@ while not end_of_game:
         print(f"You guessed {guess}, that's not in the word. You lose a life.")
         
         lives -= 1
+        print(f"Last {lives} live left")
+        
         if lives == 0:
             end_of_game = True
             print("You lose.")
