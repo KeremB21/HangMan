@@ -1,49 +1,56 @@
 import random
 from hangman_words import word_list
-from hangman_art import stages
+from hangman_art import stages, logo
 
-chosen_word = random.choice(word_list)
-word_length = len(chosen_word)
+lives = 6 
 
-end_of_game = False
-lives = 6
-
-from hangman_art import logo
 print(logo)
 
-# print(f"The solution is {chosen_word}.")
+chosen_word = random.choice(word_list)
+print(chosen_word)
 
-display = []
-for _ in range(word_length):
-    display += "_"
+placeholder = ""
+word_length= len(chosen_word)
+for position in range(word_length):
+    placeholder += "_"
+print(placeholder)
 
-while not end_of_game:
+game_over = False
+correct_letters = []
+
+while not game_over:
+    
+    print(f"********* {lives} lives left **************")
+    
     guess = input("Guess a letter: ").lower()
-
-    if guess in display:
+    
+    if guess in correct_letters:
         print(f"You've already guessed {guess}")
+    
+    display = ""
 
-    for position in range(word_length):
-        letter = chosen_word[position]
-        #print(f"Current position: {position}\n Current letter: {letter}\n Guessed letter: {guess}")
+    for letter in chosen_word:
         if letter == guess:
-            display[position] = letter
+            display += letter
+            correct_letters.append(guess)
+        elif letter in correct_letters:
+            display += letter
+        else:
+            display += "_"
 
+    print(display)
+    
     if guess not in chosen_word:
-        print(f"You guessed {guess}, that's not in the word. You lose a life.")
-        
         lives -= 1
-        print(f"Last {lives} live left")
+        print(f"You guessed {guess}, that's not in the word. You lose a life")
         
         if lives == 0:
-            end_of_game = True
-            print("You lose.")
-            print(f"The correct answer was {chosen_word}")
-
-    print(f"{' '.join(display)}")
-
+            game_over = True
+            print(f"*********** It was {chosen_word}! You lose *********")
+    
     if "_" not in display:
-        end_of_game = True
-        print("You win.")
+        
+        game_over = True
+        print("*************** You won ************")
 
-    print(stages[lives])
+    print(stages[lives]) 
